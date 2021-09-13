@@ -1,3 +1,5 @@
 from django.shortcuts import render
 
-# Create your views here.
+
+def vue1(request):
+    return render(request, template_name='movietut/index.html', context={'nom': 'Jacques'})
