@@ -10,12 +10,12 @@
             <div class="columns">
                 <div class="column is-one-fifth">
                     {% if movie.poster %}
-                        <figure class="image is-3by4">
+                        <figure class="image is-3by5">
                             <img src="https://www.themoviedb.org/t/p/w1280{{ movie.poster }}"
                                  alt="{{ movie }} poster">
                         </figure>
                     {% else %}
-                        <figure class="image is-3by4">
+                        <figure class="image is-3by5">
                             <img src="{% static 'movietut/img/placeholder.svg' %}"
                                  alt="{{ movie }} poster">
                         </figure>
