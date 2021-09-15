@@ -1,4 +1,5 @@
 {% extends 'movietut/base.html' %}
+{% load static %}
 
 {% block content %}
 
@@ -7,7 +8,25 @@
             <div class="columns is-multiline">
                 {% for movie in page_obj %}
                     <div class="column is-one-quarter">
-                        {{ movie }}
+                        <div class="card">
+                            <div class="card-image">
+                                {% if movie.poster %}
+                                    <figure class="image is-3by4">
+                                        <img src="https://www.themoviedb.org/t/p/w1280{{ movie.poster }}"
+                                             alt="{{ movie }} poster">
+                                    </figure>
+                                {% else %}
+                                    <figure class="image is-3by4">
+                                        <img src="{% static 'movietut/img/placeholder.svg' %}"
+                                             alt="{{ movie }} poster">
+                                    </figure>
+                                {% endif %}
+                            </div>
+                            <div class="card-content">
+                                <h3 class="has-text-weight-bold">{{ movie.title|truncatechars:42 }}</h3>
+                                <h4 class="has-text-grey-dark">{{ movie.release_date }}</h4>
+                            </div>
+                        </div>
                     </div>
                 {% endfor %}
             </div>
@@ -19,5 +38,12 @@
             {% endif %}
         </div>
     </section>
+
+    <style>
+        .card {
+            height: 100%;
+
+        }
+    </style>
 
 {% endblock %}
