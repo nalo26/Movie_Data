@@ -24,4 +24,6 @@ class Movie(models.Model):
     vote_average = models.FloatField()
     genres = models.ManyToManyField(Genre)
 
+    def __str__(self):
+        return self.title
 
