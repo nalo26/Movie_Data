@@ -1,8 +1,6 @@
 from django.urls import path
-from django.views.generic import TemplateView
 from . import views
 
 urlpatterns = [
-    path('', TemplateView.as_view(template_name='movietut/index.html')),
-    path('page', views.vue1)
+    path('', views.MovieListView.as_view(), name='index'),
 ]

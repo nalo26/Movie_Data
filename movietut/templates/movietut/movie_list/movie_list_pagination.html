@@ -1,0 +1,74 @@
+<nav class="pagination">
+    {% if page_obj.has_previous %}
+        <a class="pagination-previous"
+           href="?page={{ page_obj.previous_page_number }}">
+            Page précédente
+        </a>
+    {% else %}
+        <a class="pagination-previous" disabled>Page précédente</a>
+    {% endif %}
+    {% if page_obj.has_next %}
+        <a class="pagination-next"
+           href="?page={{ page_obj.next_page_number }}">
+            Page suivante
+        </a>
+    {% else %}
+        <a class="pagination-next" disabled>Page suivante</a>
+    {% endif %}
+    <ul class="pagination-list">
+        {% if page_obj.number > 3 %}
+            <li>
+                <a class="pagination-link" href="?page=1">1</a>
+            </li>
+            {% if page_obj.number > 4 %}
+                <li>
+                    <span class="pagination-ellipsis">&hellip;</span>
+                </li>
+            {% endif %}
+        {% endif %}
+
+        {% for i in page_obj.paginator.page_range %}
+            <li>
+                {% with leftmax=page_obj.number|add:"-3" %}
+                    {% with rightmax=page_obj.number|add:"+3" %}
+                        {% if leftmax < i %}
+                            {% if i < rightmax %}
+
+                                {% if i == pieces.number %}
+                                    <a class="pagination-link is-current"
+                                       href="?page={{ i }}">
+                                        {{ i }}
+                                    </a>
+                                {% else %}
+                                    <a class="pagination-link"
+                                       href="?page={{ i }}">
+                                        {{ i }}
+                                    </a>
+                                {% endif %}
+
+                            {% endif %}
+                        {% endif %}
+                    {% endwith %}
+                {% endwith %}
+            </li>
+        {% endfor %}
+
+        {% with rightdistance=page_obj.paginator.num_pages|add:"-2" %}
+            {% with rightdistanceplus=page_obj.paginator.num_pages|add:"-3" %}
+                {% if page_obj.number < rightdistance %}
+                    {% if page_obj.number < rightdistanceplus %}
+                        <li>
+                            <span class="pagination-ellipsis">&hellip;</span>
+                        </li>
+                    {% endif %}
+                    <li>
+                        <a class="pagination-link"
+                           href="?page={{ page_obj.paginator.num_pages }}">
+                            {{ page_obj.paginator.num_pages }}
+                        </a>
+                    </li>
+                {% endif %}
+            {% endwith %}
+        {% endwith %}
+    </ul>
+</nav>

@@ -1,0 +1,23 @@
+{% extends 'movietut/base.html' %}
+
+{% block content %}
+
+    <section class="section">
+        <div class="container is-max-desktop">
+            <div class="columns is-multiline">
+                {% for movie in page_obj %}
+                    <div class="column is-one-quarter">
+                        {{ movie }}
+                    </div>
+                {% endfor %}
+            </div>
+
+            {% if page_obj.has_other_pages %}
+                <div class="pt-6">
+                    {% include 'movietut/movie_list/movie_list_pagination.html' %}
+                </div>
+            {% endif %}
+        </div>
+    </section>
+
+{% endblock %}

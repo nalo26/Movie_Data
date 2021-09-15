@@ -1,5 +1,7 @@
-from django.shortcuts import render
+from django.views.generic import ListView
+from .models import Movie
 
 
-def vue1(request):
-    return render(request, template_name='movietut/index.html', context={'nom': 'Jacques'})
+class MovieListView(ListView):
+    model = Movie
+    paginate_by = 30
