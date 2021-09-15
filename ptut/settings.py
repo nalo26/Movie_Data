@@ -140,5 +140,6 @@ BULMA_SETTINGS = {
     ],
     "output_style": "compressed",
     "custom_scss": [
+        "movietut/css/base.scss",
     ],
 }
