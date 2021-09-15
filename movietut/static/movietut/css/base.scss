@@ -1,0 +1,12 @@
+// To make footer sticked to the bottom of viewport
+@media screen {
+  body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+  }
+
+  #wrapper {
+    flex: 1;
+  }
+}

@@ -1,0 +1,33 @@
+{% load django_simple_bulma %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{% endblock %}</title>
+
+    {% bulma %}
+    {% font_awesome %}
+
+    <link rel="preload" href="{% static 'movietut/css/base.css' %}" as="style">
+    <link rel="stylesheet" href="{% static 'movietut/css/base.css' %}">
+
+    {% comment %}
+        <link rel="icon" type="image/x-icon" href="{% static 'rtpWebsite/img/favicon.ico' %}">
+    {% endcomment %}
+
+</head>
+<body>
+<div id="wrapper">
+    {% include 'movietut/base/base_navbar.html' %}
+    {% comment %}
+        {% include 'movietut/base_navbar.html' %}
+    {% endcomment %}
+
+    {% block content %}{% endblock %}
+</div>
+{% include 'movietut/base/base_footer.html' %}
+</body>
+</html>
