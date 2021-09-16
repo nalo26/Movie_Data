@@ -1,0 +1,23 @@
+{% extends "movietut/base.html" %}
+{% load static %}
+{% load custom_tags %}
+
+{% block css_js %} 
+    <script defer src="{% static 'movietut/js/index.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+
+<h1>Film du moment</h1>
+<section class="section">
+    <div class="container is-max-desktop">
+        <div id="carousel">
+            {% for movie in movies_to_be_released %}
+                {% include 'movietut/movie_card.html' %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}
