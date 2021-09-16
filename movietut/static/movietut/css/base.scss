@@ -11,6 +11,10 @@
   }
 }
 
+.same-height-card {
+  height: 100%;
+}
+
 img {
   &.is-covered {
     object-fit: cover;

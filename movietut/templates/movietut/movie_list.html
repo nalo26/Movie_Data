@@ -9,7 +9,7 @@
             <div class="columns is-multiline is-mobile">
                 {% for movie in page_obj %}
                     <div class="column is-one-fourth-tablet is-one-third-mobile is-one-fifth-desktop">
-                        <div class="card">
+                        <div class="card same-height-card">
                             <a class="card-image" href="{% url 'movie-detail' movie.pk %}">
                                 {% if movie.poster %}
                                     <figure class="image is-3by4">
@@ -40,12 +40,5 @@
             {% endif %}
         </div>
     </section>
-
-    <style>
-        .card {
-            height: 100%;
-
-        }
-    </style>
 
 {% endblock %}
