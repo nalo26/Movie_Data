@@ -132,6 +132,7 @@ BULMA_SETTINGS = {
     "extensions": [
         "bulma-navbar-burger",
         "bulma-modal",
+        "bulma-carousel",
     ],
     "output_style": "compressed",
     "custom_scss": [
