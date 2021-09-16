@@ -38,6 +38,7 @@ INSTALLED_APPS = [
 
     'movietut.apps.MovietutConfig',
     'django_simple_bulma',
+    'django_select2',
 ]
 
 MIDDLEWARE = [
