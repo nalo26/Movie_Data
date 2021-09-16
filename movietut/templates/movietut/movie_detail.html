@@ -3,6 +3,7 @@
     {{ movie.title }} ({{ movie.release_date.year }})
 {% endblock %}
 {% load static %}
+{% load custom_tags %}
 
 {% block content %}
     <section class="section">
@@ -10,14 +11,19 @@
             <div class="columns">
                 <div class="column is-one-fifth">
                     {% if movie.poster %}
-                        <figure class="image is-3by5">
-                            <img src="https://www.themoviedb.org/t/p/w1280{{ movie.poster }}"
-                                 alt="{{ movie }} poster">
-                        </figure>
+                        <a href="#" class="modal-button" data-target="poster-wide">
+                            <figure class="image is-3by5 is-expandable">
+                                <img src="{% get_poster_url movie.poster %}"
+                                     alt="{{ movie }} poster" class="is-contained">
+                                <span class="expand icon has-text-white">
+                                    <i class="fas fa-2x fa-expand-alt"></i>
+                                </span>
+                            </figure>
+                        </a>
                     {% else %}
                         <figure class="image is-3by5">
                             <img src="{% static 'movietut/img/placeholder.svg' %}"
-                                 alt="{{ movie }} poster">
+                                 alt="{{ movie }} poster" class="is-contained">
                         </figure>
                     {% endif %}
                 </div>
@@ -27,6 +33,28 @@
                             <span class="has-text-weight-light has-text-grey-dark">({{ movie.release_date.year }})</span>
                         </h1>
                     </div>
+                    <div class="buttons">
+                        <button class="button">
+                            <span class="icon is-small">
+                                <i class="fas fa-list"></i>
+                            </span>
+                        </button>
+                        <button class="button">
+                            <span class="icon is-small">
+                                <i class="fas fa-heart"></i>
+                            </span>
+                        </button>
+                        <button class="button">
+                            <span class="icon is-small">
+                                <i class="fas fa-bookmark"></i>
+                            </span>
+                        </button>
+                        <button class="button">
+                            <span class="icon is-small">
+                                <i class="fas fa-star"></i>
+                            </span>
+                        </button>
+                    </div>
                     <div class="content has-text-justified">
                         <h2>Synopsis</h2>
                         {{ movie.overview }}
@@ -35,4 +63,14 @@
             </div>
         </div>
     </section>
+
+    <div id="poster-wide" class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+            <p class="image">
+                <img src="{% get_poster_url movie.poster %}" alt="{{ movie }} poster">
+            </p>
+        </div>
+        <button class="modal-close is-large" aria-label="Fermer"></button>
+    </div>
 {% endblock %}
