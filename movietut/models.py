@@ -52,3 +52,13 @@ class Movie(models.Model):
     class Meta:
         ordering = ['-release_date']
 
+class User(models.Model):
+    login = models.CharField(max_length=25, default="", primary_key=True)
+    password = models.CharField(max_length=25, default="")
+    email = models.CharField(max_length=50, default="")
+    first_name = models.CharField(max_length=15, default="")
+    last_name = models.CharField(max_length=25, default="")
+    movies = models.ManyToManyField(Movie)
+
+    def __str__(self):
+        return f"{self.first_name} ({self.last_name})"
