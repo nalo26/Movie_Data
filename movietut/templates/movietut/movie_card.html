@@ -1,0 +1,23 @@
+{% load static %}
+{% load custom_tags %}
+
+<div class="card same-height-card">
+    <a class="card-image" href="{% url 'movie-detail' movie.pk %}">
+        {% if movie.poster %}
+            <figure class="image is-3by4">
+                <img src="{% get_poster_url movie.poster %}"
+                     alt="{{ movie }} poster" class="is-covered">
+            </figure>
+        {% else %}
+            <figure class="image is-3by4">
+                <img src="{% static 'movietut/img/placeholder.svg' %}"
+                     alt="{{ movie }} poster" class="is-contained">
+            </figure>
+        {% endif %}
+    </a>
+    <div class="card-content">
+        <a class="has-text-weight-bold" href="{% url 'movie-detail' movie.pk %}">
+            {{ movie.title|truncatechars:42 }}</a>
+        <h4 class="has-text-grey-dark">{{ movie.release_date }}</h4>
+    </div>
+</div>
