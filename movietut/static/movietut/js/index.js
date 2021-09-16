@@ -1,5 +1,5 @@
 window.onload = function () {
-    bulmaCarousel.attach("#carousel", {
+    bulmaCarousel.attach(".carousel", {
         slidesToScroll: 1,
         slidesToShow: 4,
         loop: true,

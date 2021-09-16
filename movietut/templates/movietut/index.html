@@ -8,16 +8,29 @@
 
 {% block content %}
 
-<h1>Film du moment</h1>
+
 <section class="section">
-    <div class="container is-max-desktop">
-        <div id="carousel">
+    <div class="container">
+    <h2 class="title">Prochaine sorties</h2>
+        <div class="carousel is-clipped">
             {% for movie in movies_to_be_released %}
-                {% include 'movietut/movie_card.html' %}
+               {% include 'movietut/movie_card.html' %}
             {% endfor %}
         </div>
     </div>
 </section>
+<section class="section">
+    <div class="container">
+    <h2 class="title">Sorties récentes</h2>
+        <div class="carousel is-clipped">
+            {% for movie in movies_recently_released %}
+               {% include 'movietut/movie_card.html' %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+
 
 
 {% endblock %}
