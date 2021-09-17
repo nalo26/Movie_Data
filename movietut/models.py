@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 
 class Genre(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -52,12 +52,9 @@ class Movie(models.Model):
     class Meta:
         ordering = ['-release_date']
 
-class User(models.Model):
-    login = models.CharField(max_length=25, default="", primary_key=True)
-    password = models.CharField(max_length=25, default="")
-    email = models.CharField(max_length=50, default="")
-    first_name = models.CharField(max_length=15, default="")
-    last_name = models.CharField(max_length=25, default="")
+class Member(models.Model):
+    user = models.OneToOneField(User,
+        on_delete=models.DO_NOTHING)
     movies = models.ManyToManyField(Movie)
 
     def __str__(self):
