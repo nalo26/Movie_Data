@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 
 class Genre(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -52,10 +53,8 @@ class Movie(models.Model):
     class Meta:
         ordering = ['-release_date']
 
-class Member(models.Model):
-    user = models.OneToOneField(User,
-        on_delete=models.DO_NOTHING)
-    movies = models.ManyToManyField(Movie)
+
+class Member(AbstractUser):
 
     def __str__(self):
         return f"{self.first_name} ({self.last_name})"

@@ -38,6 +38,7 @@ INSTALLED_APPS = [
 
     'movietut.apps.MovietutConfig',
     'django_simple_bulma',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -139,3 +140,8 @@ BULMA_SETTINGS = {
         "movietut/css/base.scss",
     ],
 }
+
+AUTH_USER_MODEL = 'movietut.Member'
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'index'
+LOGOUT_REDIRECT_URL = 'index'
