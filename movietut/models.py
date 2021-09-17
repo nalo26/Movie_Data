@@ -15,7 +15,7 @@ class Production_Country(models.Model):
 
 class Production_Company(models.Model):
     id = models.IntegerField(primary_key=True)
-    logo = models.CharField(max_length=200, default=True)
+    logo = models.CharField(max_length=200, default="")
     name = models.CharField(max_length=200)
     origin_country = models.CharField(max_length=200)
 
