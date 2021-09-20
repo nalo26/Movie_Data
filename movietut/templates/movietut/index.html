@@ -1,0 +1,57 @@
+{% extends "movietut/base.html" %}
+{% load static %}
+{% load custom_tags %}
+
+{% block css_js %}
+<script defer src="{% static 'movietut/js/index.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+
+{% if movies_recommended %}
+<section class="section">
+    <div class="container">
+        <h2 class="title">Vos recommandations</h2>
+        <div class="carousel is-clipped">
+            {% for movie in movies_recommended %}
+            {% include 'movietut/movie_card.html' %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<section class="section">
+    <div class="container">
+        <h2 class="title">Prochaine sorties</h2>
+        <div class="carousel is-clipped">
+            {% for movie in movies_to_be_released %}
+            {% include 'movietut/movie_card.html' %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+<section class="section">
+    <div class="container">
+        <h2 class="title">Sorties récentes</h2>
+        <div class="carousel is-clipped">
+            {% for movie in movies_recently_released %}
+            {% include 'movietut/movie_card.html' %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <h2 class="title">Les mieux notés</h2>
+        <div class="carousel is-clipped">
+            {% for movie in movies_top_rated %}
+            {% include 'movietut/movie_card.html' %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}
