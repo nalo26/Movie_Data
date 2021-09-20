@@ -38,6 +38,7 @@ INSTALLED_APPS = [
 
     'movietut.apps.MovietutConfig',
     'django_simple_bulma',
+    'django_select2',
 ]
 
 MIDDLEWARE = [
@@ -64,6 +65,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'movietut.context.inject_form',
             ],
         },
     },
@@ -137,5 +139,6 @@ BULMA_SETTINGS = {
     "output_style": "compressed",
     "custom_scss": [
         "movietut/css/base.scss",
+        "movietut/css/custom_select2.scss",
     ],
 }
