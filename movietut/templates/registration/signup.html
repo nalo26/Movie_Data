@@ -1,0 +1,86 @@
+{% extends 'movietut/base.html' %}
+
+{% block content %}
+    <section class="hero is-fullheight-with-navbar">
+
+        <div class="hero-body">
+            <div class="container">
+                <div class="columns is-centered">
+                    <div class="column" style="max-width: 376px;">
+                        <div class="panel">
+                            <p class="panel-heading">Inscription</p>
+                            <div class="panel-block">
+                                <form class="control my-2 mx-4" method="post">
+                                    {% csrf_token %}
+                                    {% load widget_tweaks %}
+
+                                    {% for err in form.non_field_errors %}
+                                        <div class="notification is-size-7 is-danger is-light is-italic error-message">
+                                            {{ err }}
+                                        </div>
+                                    {% endfor %}
+
+                                    <!-- Champ username -->
+                                    <div class="field">
+                                        <label class="label" for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
+                                        <div class="control has-icons-left has-icons-right">
+                                            {% render_field form.username class="input" id="username" placeholder=form.username.label %}
+                                            <span class="icon is-small is-left"><i class="fas fa-user"></i></span>    
+                                         {% if form.username.errors %}
+                                            <span class="icon is-small is-right"><i class="fas fa-exclamation-triangle"></i></span>
+                                        {% endif %}
+                                        </div>
+                                        <p class="help is-danger">{{ form.username.error }}</p>
+                                    </div>
+
+                                    <!-- Champ password1 -->
+                                    <div class="field">
+                                        <label class="label" for="{{ form.password1.id_for_label }}">{{ form.password1.label }}</label>
+                                        <div class="control has-icons-left has-icons-right">
+                                            {% render_field form.password1 class="input" id="password1" type="password" placeholder=form.password.label %}
+                                            <span class="icon is-small is-left"><i class="fas fa-lock"></i></span>
+                                         {% if form.password1.errors %}
+                                            <span class="icon is-small is-right"><i class="fas fa-exclamation-triangle"></i></span>
+                                        {% endif %}
+                                        </div>
+                                        <p class="help is-danger">{{ form.password1.errors }}</p>
+                                    </div>
+
+                                     <!-- Champ password2 -->
+                                    <div class="field">
+                                        <label class="label" for="{{ form.password2.id_for_label }}">{{ form.password2.label }}</label>
+                                        <div class="control has-icons-left has-icons-right">
+                                            {% render_field form.password2 class="input" id="password2" type="password" placeholder=form.password.label %}
+                                            <span class="icon is-small is-left"><i class="fas fa-lock"></i></span>
+                                        {% if form.password2.errors %}
+                                            <span class="icon is-small is-right"><i class="fas fa-exclamation-triangle"></i></span>
+                                        {% endif %}
+                                        </div>
+                                        <p class="help is-danger">{{ form.password2.errors }}</p>                                  
+                                    </div>
+
+                                    <!-- Bouton de connexion -->
+                                    <div class="field mt-5">
+                                        <div class="control">
+                                            <button type="submit" class="button is-primary is-fullwidth">Inscription</button>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% comment %}
+<form method="post">
+    {%csrf_token%}
+    {{form.as_p}}
+    <button type="submit">Log in</button> 
+</form>
+
+{% endcomment %}
+{% endblock %}
