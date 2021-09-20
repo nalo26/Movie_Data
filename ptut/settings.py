@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'movietut.apps.MovietutConfig',
-    'django_simple_bulma',
+    # 'django_simple_bulma',
 ]
 
 MIDDLEWARE = [
@@ -124,7 +124,7 @@ STATIC_ROOT = BASE_DIR / 'static'
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'django_simple_bulma.finders.SimpleBulmaFinder',
+    # 'django_simple_bulma.finders.SimpleBulmaFinder',
 ]
 
 # Default primary key field type
