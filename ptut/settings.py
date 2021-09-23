@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'movietut.apps.MovietutConfig',
     'django_simple_bulma',
     'widget_tweaks',
-=======
     'django_select2',
 ]
 
