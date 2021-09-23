@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 
 
 class Genre(models.Model):
@@ -9,9 +11,11 @@ class Genre(models.Model):
     def __str__(self):
         return self.name
 
+
 class Production_Country(models.Model):
     iso = models.CharField(max_length=3, primary_key=True)
     name = models.CharField(max_length=100)
+
 
 class Production_Company(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -19,9 +23,11 @@ class Production_Company(models.Model):
     name = models.CharField(max_length=200)
     origin_country = models.CharField(max_length=200)
 
+
 class Spoken_Languages(models.Model):
     iso = models.CharField(max_length=3, primary_key=True)
     name = models.CharField(max_length=100)
+
 
 class Movie(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -52,3 +58,8 @@ class Movie(models.Model):
     class Meta:
         ordering = ['-release_date']
 
+
+class Member(AbstractUser):
+
+    def __str__(self):
+        return f"{self.first_name} ({self.last_name})"

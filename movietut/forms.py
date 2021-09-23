@@ -1,9 +1,11 @@
-from django.db.models import Q
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from django.forms.models import ALL_FIELDS
+from django.db.models import Q
 from django_select2 import forms as s2forms
 from functools import reduce
 from unidecode import unidecode
-from .models import Movie
+from .models import Movie, Menber
 
 
 class MovieWidget(s2forms.ModelSelect2Widget):
@@ -38,3 +40,18 @@ class MovieForm(forms.Form):
         ),
         queryset=Movie.objects.all()
     )
+    
+    
+    
+class MemberCreationForm(UserCreationForm):
+    class Meta:
+        model = Member
+        fields = ('username','password1','password2')
+    
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data["password1"])
+        if commit:
+            user.save()
+        return user
+

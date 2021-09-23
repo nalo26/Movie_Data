@@ -6,6 +6,9 @@ from django.views.generic import ListView, DetailView
 
 from .forms import MovieForm
 from .models import Movie
+from django.views.generic.edit import CreateView
+from django.urls import reverse_lazy
+from .forms import MemberCreationForm
 from django.shortcuts import render
 from django.utils import timezone
 
@@ -22,6 +25,7 @@ def index(request):
         "movies_top_rated": movies_top_rated,
     }
 
+
     if(request.user.is_authenticated):
         context["movies_recommended"] = get_users_recommendations()
             
@@ -37,6 +41,12 @@ class MovieListView(ListView):
 
 class MovieDetailView(DetailView):
     model = Movie
+
+
+class MemberCreationView(CreateView):
+    form_class = MemberCreationForm
+    template_name = 'registration/signup.html'
+    success_url = reverse_lazy('login')
 
     def post(self, request, *args, **kwargs):
         action = request.POST.get('ajax-action')
