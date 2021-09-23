@@ -6,12 +6,12 @@
         {% if movie.poster %}
             <figure class="image is-3by4">
                 <img src="{% get_poster_url movie.poster %}"
-                     alt="{{ movie }} poster" class="is-covered">
+                     alt="{{ movie }} poster" class="is-covered" loading="lazy">
             </figure>
         {% else %}
             <figure class="image is-3by4">
                 <img src="{% static 'movietut/img/placeholder.svg' %}"
-                     alt="{{ movie }} poster" class="is-contained">
+                     alt="{{ movie }} poster" class="is-contained" loading="lazy">
             </figure>
         {% endif %}
     </a>

@@ -19,7 +19,7 @@ class Production_Country(models.Model):
 
 class Production_Company(models.Model):
     id = models.IntegerField(primary_key=True)
-    logo = models.CharField(max_length=200, default=True)
+    logo = models.CharField(max_length=200, default="")
     name = models.CharField(max_length=200)
     origin_country = models.CharField(max_length=200)
 
@@ -46,7 +46,7 @@ class Movie(models.Model):
     revenue = models.IntegerField(default=0)
     runtime = models.IntegerField(default=0)
     status = models.CharField(max_length=200, default="")
-    tagline = models.CharField(max_length=200, default="")
+    tagline = models.TextField(default="")
     genres = models.ManyToManyField(Genre)
     production_companies = models.ManyToManyField(Production_Company)
     production_countries = models.ManyToManyField(Production_Country)

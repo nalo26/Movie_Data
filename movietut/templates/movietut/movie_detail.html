@@ -6,6 +6,7 @@
 {% load custom_tags %}
 
 {% block content %}
+
     <section class="section">
         <div class="container">
             <div class="columns">
@@ -33,27 +34,38 @@
                             <span class="has-text-weight-light has-text-grey-dark">({{ movie.release_date.year }})</span>
                         </h1>
                     </div>
-                    <div class="buttons">
-                        <button class="button">
-                            <span class="icon is-small">
-                                <i class="fas fa-list"></i>
-                            </span>
-                        </button>
-                        <button class="button">
-                            <span class="icon is-small">
-                                <i class="fas fa-heart"></i>
-                            </span>
-                        </button>
-                        <button class="button">
-                            <span class="icon is-small">
-                                <i class="fas fa-bookmark"></i>
-                            </span>
-                        </button>
-                        <button class="button">
-                            <span class="icon is-small">
-                                <i class="fas fa-star"></i>
-                            </span>
-                        </button>
+                    <div class="field is-grouped">
+                        {% csrf_token %}
+                        <form class="control" method="POST">
+                            <a id="ajax-list" class="button ajax-action" href="#" title="Ajouter à une liste">
+                                <span class="icon is-small">
+                                    <i class="fas fa-list"></i>
+                                </span>
+                            </a>
+                        </form>
+                        <form class="control" method="POST">
+                            <a id="ajax-like" class="button ajax-action" href="#" title="Ajouter à mes favoris"
+                               type="submit">
+                                <span class="icon is-small">
+                                    <i class="fas fa-heart"></i>
+                                </span>
+                            </a>
+                        </form>
+                        <form class="control" method="POST">
+                            <a id="ajax-bookmark" class="button ajax-action" href="#"
+                               title="Ajouter à ma liste d'envies">
+                                <span class="icon is-small">
+                                    <i class="fas fa-bookmark"></i>
+                                </span>
+                            </a>
+                        </form>
+                        <form class="control" method="POST">
+                            <a id="ajax-grade" class="button ajax-action" href="#" title="Donner une note">
+                                <span class="icon is-small">
+                                    <i class="fas fa-star"></i>
+                                </span>
+                            </a>
+                        </form>
                     </div>
                     <div class="content has-text-justified">
                         <h2>Synopsis</h2>
@@ -73,4 +85,29 @@
         </div>
         <button class="modal-close is-large" aria-label="Fermer"></button>
     </div>
+
+    <script defer>
+        document.addEventListener("DOMContentLoaded", function () {
+            let ajaxActions = Array.prototype.slice.call(document.querySelectorAll(".ajax-action"), 0);
+            if (ajaxActions.length > 0) {
+                ajaxActions.forEach(function (el) {
+                    el.addEventListener("click", event => {
+                        let formData = new FormData();
+                        formData.append('ajax-action', el.id);
+                        let csrfTokenValue = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                        const request = new Request('{% url 'movie-detail' movie.pk %}', {
+                            method: 'POST',
+                            body: formData,
+                            headers: {'X-CSRFToken': csrfTokenValue},
+                        });
+                        fetch(request)
+                            .then(response => response.json())
+                            .then(result => {
+                                window.alert(result['action_result'])
+                            });
+                    })
+                });
+            }
+        });
+    </script>
 {% endblock %}
