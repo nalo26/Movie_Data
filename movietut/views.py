@@ -1,7 +1,7 @@
-from datetime import time, timedelta
+from django.utils import timezone
+from datetime import timedelta
 from django.http import JsonResponse
-from django.shortcuts import redirect, render
-from django.urls import reverse_lazy
+from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView
 
 from .forms import MovieForm
@@ -10,7 +10,7 @@ from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
 from .forms import MemberCreationForm
 from django.shortcuts import render
-from django.utils import timezone
+
 
 def index(request):
     start_date = timezone.now()
@@ -25,14 +25,15 @@ def index(request):
         "movies_top_rated": movies_top_rated,
     }
 
-
-    if(request.user.is_authenticated):
+    if request.user.is_authenticated:
         context["movies_recommended"] = get_users_recommendations()
             
     return render(request, "movietut/index.html", context)
 
+
 def get_users_recommendations():
     return None
+
 
 class MovieListView(ListView):
     model = Movie
