@@ -1,15 +1,14 @@
 from django.utils import timezone
 from datetime import timedelta
-from django.http import JsonResponse
-from django.shortcuts import redirect
-from django.views.generic import ListView, DetailView
 
-from .forms import MovieForm
-from .models import Movie
-from django.views.generic.edit import CreateView
+from django.http import JsonResponse
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
-from .forms import MemberCreationForm
-from django.shortcuts import render
+from django.views.generic import ListView, DetailView
+from django.views.generic.edit import CreateView
+
+from .forms import MovieForm, MemberCreationForm
+from .models import Movie
 
 
 def index(request):
