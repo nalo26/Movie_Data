@@ -8,7 +8,7 @@ from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView
 
 from .forms import MovieForm, MemberCreationForm
-from .models import Movie
+from .models import Movie, Member
 
 
 def index(request):
@@ -42,12 +42,6 @@ class MovieListView(ListView):
 class MovieDetailView(DetailView):
     model = Movie
 
-
-class MemberCreationView(CreateView):
-    form_class = MemberCreationForm
-    template_name = 'registration/signup.html'
-    success_url = reverse_lazy('login')
-
     def post(self, request, *args, **kwargs):
         action = request.POST.get('ajax-action')
         if action == 'ajax-list':
@@ -59,6 +53,12 @@ class MemberCreationView(CreateView):
         elif action == 'ajax-grade':
             pass
         return JsonResponse({'action_result': f'Action: {action}, movie: {self.get_object().title}!'})
+
+
+class MemberCreationView(CreateView):
+    form_class = MemberCreationForm
+    template_name = 'registration/signup.html'
+    success_url = reverse_lazy('login')
 
 
 def search_movie(request):
