@@ -16,7 +16,7 @@ conn = psycopg2.connect(
     password="movie")
 
 cur = conn.cursor();
-cur.execute("select m.vote_average, m.popularity from movietut_movie m join movietut_movie_production_countries mpc on m.id = mpc.movie_id where m.popularity < 80 and m.vote_average > 0 and mpc.production_country_id in ('FR', 'US')")
+cur.execute("select m.vote_average, m.popularity from movietut_movie m join movietut_movie_production_countries mpc on m.id = mpc.movie_id where m.popularity < 80 and m.vote_average > 0 ")#and mpc.production_country_id in ('FR', 'US')")
 results = cur.fetchall();
 
 conn.close()
@@ -34,10 +34,9 @@ X, y_true = make_blobs(n_samples=n_samples,
 X = X[:, ::-1]
 '''
 # Calculate seeds from kmeans++
-centers_init, _ = kmeans_plusplus(allMoviesMatrix, n_clusters=n_components,
-                                        random_state=0)
-model = KMeans(n_clusters=10)
+model = KMeans(n_clusters=n_components, init='k-means++')
 yhat = model.fit_predict(allMoviesMatrix)
+centers_init = model.cluster_centers_
 # Plot init seeds along side sample data
 plt.figure(1)
 colors = randomColors(n_components)
@@ -45,9 +44,11 @@ colors = randomColors(n_components)
 for k, col in enumerate(colors):
     cluster_data = yhat == k
     plt.scatter(allMoviesMatrix[cluster_data, 0], allMoviesMatrix[cluster_data, 1],
-                c=col, marker='.', s=10)
+                c=col, marker='.', s=20)
 
-plt.scatter(centers_init[:, 0], centers_init[:, 1], c='b', s=50)
+plt.xlim(0,100)
+plt.ylim(0,100)
+plt.scatter(centers_init[:, 0], centers_init[:, 1], c='b', s=30)
 plt.title("Kek-Means+- CovInitialization")
 plt.xticks([])
 plt.yticks([])
