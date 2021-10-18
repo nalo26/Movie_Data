@@ -77,3 +77,13 @@ def search_movie(request):
     }
 
     return render(request, 'movietut/base.html', context)
+
+
+def profile(request):
+    user = request.user
+    context = {
+        "user": user,
+    }
+
+    return render(request, 'movietut/profile.html', context)
+
