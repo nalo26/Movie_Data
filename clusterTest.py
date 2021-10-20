@@ -23,7 +23,7 @@ conn.close()
 allMoviesMatrix = np.array(results)
 
 # Generate sample data
-n_components = 20
+n_components = 100
 '''
 n_samples = 400000
 
@@ -46,8 +46,8 @@ for k, col in enumerate(colors):
     plt.scatter(allMoviesMatrix[cluster_data, 0], allMoviesMatrix[cluster_data, 1],
                 c=col, marker='.', s=20)
 
-plt.xlim(0,100)
-plt.ylim(0,100)
+plt.xlim(0,10)
+plt.ylim(0,80)
 plt.scatter(centers_init[:, 0], centers_init[:, 1], c='b', s=30)
 plt.title("Kek-Means+- CovInitialization")
 plt.xticks([])
