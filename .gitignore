@@ -7,3 +7,4 @@ __pycache__/
 /static/
 *.sqlite3
 *.pgsql
+*.sql
