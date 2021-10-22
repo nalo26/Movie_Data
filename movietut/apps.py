@@ -8,5 +8,5 @@ class MovietutConfig(AppConfig):
     
     def ready(self):
         from .refresh_movies import background_refresh_movie
-        t = Thread(target=background_refresh_movie, args=(10,))
+        t = Thread(target=background_refresh_movie, args=(10,), daemon=True)
         t.start()        
