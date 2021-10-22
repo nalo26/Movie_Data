@@ -8,10 +8,7 @@ API_KEY = "e7e2852e5b4d9cc2fccd5fb9858411d9"
 
 def background_refresh_movie(waiting):
     latest_inserted = None
-    i = 0
     while True:
-        i += 1
-        print(f"loop {i}")
         time.sleep(waiting)
         jmovie = rq.get(f"{API_URI}?api_key={API_KEY}").json()
 
@@ -19,7 +16,7 @@ def background_refresh_movie(waiting):
 
         latest_inserted = jmovie.get('id')
         try:
-            movie, _ = Movie.objects.update_or_create(
+            movie, created = Movie.objects.update_or_create(
                 id = jmovie.get('id'),
                 defaults = {
                     "poster": jmovie.get('poster_path', '') if jmovie.get('poster_path') is not None else '',
@@ -72,4 +69,5 @@ def background_refresh_movie(waiting):
             movie.spoken_languages.add(obj)
 
         movie.save()
-        print(f"[+] {movie.title}")
+        if created: print(f"[+] {movie.title}")
+        else: print(f"[~] {movie.title}")
