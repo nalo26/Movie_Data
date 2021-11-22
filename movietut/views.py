@@ -31,8 +31,6 @@ def index(request):
 
 
 def get_users_recommendations():
-    foo = 1 + 1
-    bar = foo + 2
     return None
 
 
