@@ -9,7 +9,7 @@ class MovietutConfig(AppConfig):
     def ready(self):
         from .refresh_movies import background_refresh_movie
         from .clusterImpl import init
-        refreshMovieThread = Thread(target=background_refresh_movie, args=(10,), daemon=True)
-        refreshMovieThread.start()
+        #refreshMovieThread = Thread(target=background_refresh_movie, args=(10,), daemon=True)
+        #refreshMovieThread.start()
         createClusterThread = Thread(target=init)
         createClusterThread.start()        
