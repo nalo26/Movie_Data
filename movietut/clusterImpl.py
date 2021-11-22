@@ -6,6 +6,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import random
 
+recommended_movies = []
+
 
 def randomColors(numbers):
     return ["#"+''.join([random.choice('0123456789ABCDEF') for j in range(6)]) for _ in range(numbers)] 
@@ -19,50 +21,52 @@ def create_cluster(nbCluster):
 
 
 def init():
-    n_components = 20
+    n_components = 20 # TODO: put it back to 500
     matrix, yhat, centers_init = create_cluster(n_components)
     # Plot init seeds along side sample data
-    plt.figure(1)
+    # plt.figure(1)
     colors = randomColors(n_components)
-    print(matrix)
+    # print(matrix)
 
     pop = dict()
 
     for k, col in enumerate(colors):
         cluster_data = yhat == k
-        plt.scatter(matrix[cluster_data, 0], matrix[cluster_data, 1],
-                    c=col, marker='.', s=20)
+    #     plt.scatter(matrix[cluster_data, 0], matrix[cluster_data, 1],
+    #                 c=col, marker='.', s=20)
 
         pop[k] = list()
         for index in range(len(cluster_data)):
             if cluster_data[index]:
                 pop[k].append(matrix[index, 1])
 
-    plt.xlim(0,10)
-    plt.ylim(0,10)
-    plt.scatter(centers_init[:, 0], centers_init[:, 1], c='b', s=30)
-    plt.title("Kek-Means+- CovInitialization")
-    plt.xticks([])
-    plt.yticks([])
-    plt.show()
+    # plt.xlim(0,10)
+    # plt.ylim(0,10)
+    # plt.scatter(centers_init[:, 0], centers_init[:, 1], c='b', s=30)
+    # plt.title("Kek-Means+- CovInitialization")
+    # plt.xticks([])
+    # plt.yticks([])
+    # plt.show()
 
     searchPop(5, pop)
 
 def searchPop(cluster, pop):
+    global recommended_movies
+    print("YHAT")
 
     pop = pop[cluster]
-
-    recommended_movies = list()
+    # movies = list()
 
     for movie in pop:
-        print(movie)
+        # print(movie)
         recommended_movies.append(np.array(Movie.objects.all()
         .filter(Q(production_countries="FR") | Q(production_countries="US"), popularity=movie)))
 
+    # recommended_movies = movies.copy()
+    print(recommended_movies)
+    # TODO put ids in a file
+    # to then read it from the view
 
+def getRecommendedMovies():
+    print(recommended_movies)
     return recommended_movies
-
-
-
-
-

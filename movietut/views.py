@@ -7,9 +7,12 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView
 
+from movietut.clusterImpl import getRecommendedMovies
+
 from .forms import MovieForm, MemberCreationForm
 from .models import Movie, Member
 
+recommended_movies = []
 
 def index(request):
     start_date = timezone.now()
@@ -24,14 +27,12 @@ def index(request):
         "movies_top_rated": movies_top_rated,
     }
 
-    if request.user.is_authenticated:
-        context["movies_recommended"] = get_users_recommendations()
+    # if request.user.is_authenticated:
+    r_movies = getRecommendedMovies()
+    print(r_movies)
+    context["movies_recommended"] = r_movies
             
     return render(request, "movietut/index.html", context)
-
-
-def get_users_recommendations():
-    return None
 
 
 class MovieListView(ListView):
