@@ -1,5 +1,6 @@
 from django.apps import AppConfig
 from threading import Thread
+import os
 
 
 class MovietutConfig(AppConfig):
@@ -7,9 +8,10 @@ class MovietutConfig(AppConfig):
     name = 'movietut'
     
     def ready(self):
-        from .refresh_movies import background_refresh_movie
-        from .clusterImpl import init
-        refreshMovieThread = Thread(target=background_refresh_movie, args=(10,), daemon=True)
-        refreshMovieThread.start()
-        createClusterThread = Thread(target=init)
-        createClusterThread.start()        
+        if os.environ.get('RUN_MAIN', None) != 'true':
+            from .refresh_movies import background_refresh_movie
+            from .clusterImpl import init
+            refreshMovieThread = Thread(target=background_refresh_movie, args=(10,), daemon=True)
+            refreshMovieThread.start()
+            createClusterThread = Thread(target=init)
+            createClusterThread.start()        
