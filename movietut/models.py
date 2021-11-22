@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.contrib.auth.models import AbstractUser
 
 
@@ -60,5 +60,18 @@ class Movie(models.Model):
 
 
 class Member(AbstractUser):
+    genres = models.ManyToManyField(Genre)
+    movies = models.ManyToManyField(Movie, through='MemberMovies')
     def __str__(self):
         return self.username
+ 
+
+class MemberMovies(models.Model):
+    member = models.ForeignKey(Member, on_delete=models.CASCADE)
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    is_liked = models.BooleanField(default=False)
+    is_wanted = models.BooleanField(default=False)
+    mark = models.IntegerField(blank=True, null=True, validators=[
+            MaxValueValidator(5),
+            MinValueValidator(1)
+        ])
