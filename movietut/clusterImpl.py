@@ -5,8 +5,7 @@ from django.db.models import Q
 import numpy as np
 import matplotlib.pyplot as plt
 import random
-
-recommended_movies = []
+import json
 
 
 def randomColors(numbers):
@@ -21,7 +20,7 @@ def create_cluster(nbCluster):
 
 
 def init():
-    n_components = 20 # TODO: put it back to 500
+    n_components = 500 # TODO: put it back to 500
     matrix, yhat, centers_init = create_cluster(n_components)
     # Plot init seeds along side sample data
     # plt.figure(1)
@@ -48,25 +47,20 @@ def init():
     # plt.yticks([])
     # plt.show()
 
-    searchPop(5, pop)
+    searchPop(125, pop)
 
 def searchPop(cluster, pop):
-    global recommended_movies
-    print("YHAT")
-
     pop = pop[cluster]
-    # movies = list()
+    movies = list()
 
     for movie in pop:
-        # print(movie)
-        recommended_movies.append(np.array(Movie.objects.all()
-        .filter(Q(production_countries="FR") | Q(production_countries="US"), popularity=movie)))
+        qset = Movie.objects.all().filter(Q(production_countries="FR") | Q(production_countries="US"), popularity=movie).values_list("id")
+        # print(qset)
+        for m in qset:
+            movies.append(m[0])
 
-    # recommended_movies = movies.copy()
-    print(recommended_movies)
-    # TODO put ids in a file
-    # to then read it from the view
+    # print(movies)
+    with open('recommended_movies.json', 'w') as f:
+        json.dump(movies, f)
 
-def getRecommendedMovies():
-    print(recommended_movies)
-    return recommended_movies
+    print(f"YHATED {len(movies)} movies")
