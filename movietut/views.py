@@ -6,13 +6,11 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView
-
-from movietut.clusterImpl import getRecommendedMovies
+import json
 
 from .forms import MovieForm, MemberCreationForm
 from .models import Movie, Member
 
-recommended_movies = []
 
 def index(request):
     start_date = timezone.now()
@@ -29,10 +27,17 @@ def index(request):
 
     # if request.user.is_authenticated:
     r_movies = getRecommendedMovies()
-    print(r_movies)
     context["movies_recommended"] = r_movies
             
     return render(request, "movietut/index.html", context)
+
+def getRecommendedMovies():
+    try:
+        with open("recommended_movies.json", 'r') as f:
+            movies = json.load(f)
+        return [Movie.objects.get(id=i) for i in movies]
+
+    except Exception: return []
 
 
 class MovieListView(ListView):
