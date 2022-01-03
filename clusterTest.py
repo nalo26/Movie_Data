@@ -1,6 +1,4 @@
-from sklearn.cluster import kmeans_plusplus
 from sklearn.cluster import KMeans
-from sklearn.datasets import make_blobs
 import matplotlib.pyplot as plt
 import psycopg2
 import numpy as np
@@ -23,7 +21,7 @@ conn.close()
 allMoviesMatrix = np.array(results)
 
 # Generate sample data
-n_components = 100
+n_components = 500
 '''
 n_samples = 400000
 
