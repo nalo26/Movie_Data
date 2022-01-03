@@ -1,9 +1,8 @@
-from django.db import models
+import os
 from sklearn.cluster import KMeans
 from movietut.models import Movie
 from django.db.models import Q
 import numpy as np
-import matplotlib.pyplot as plt
 import random
 import json
 
@@ -20,34 +19,23 @@ def create_cluster(nbCluster):
 
 
 def init():
-    n_components = 500 # TODO: put it back to 500
+    if os.path.exists("recommended_movies.json"):
+        os.remove("recommended_movies.json")
+        
+    n_components = 50
     matrix, yhat, centers_init = create_cluster(n_components)
-    # Plot init seeds along side sample data
-    # plt.figure(1)
-    colors = randomColors(n_components)
-    # print(matrix)
 
     pop = dict()
 
-    for k, col in enumerate(colors):
+    for k in range(n_components):
         cluster_data = yhat == k
-    #     plt.scatter(matrix[cluster_data, 0], matrix[cluster_data, 1],
-    #                 c=col, marker='.', s=20)
 
         pop[k] = list()
         for index in range(len(cluster_data)):
             if cluster_data[index]:
                 pop[k].append(matrix[index, 1])
 
-    # plt.xlim(0,10)
-    # plt.ylim(0,10)
-    # plt.scatter(centers_init[:, 0], centers_init[:, 1], c='b', s=30)
-    # plt.title("Kek-Means+- CovInitialization")
-    # plt.xticks([])
-    # plt.yticks([])
-    # plt.show()
-
-    searchPop(125, pop)
+    searchPop(12, pop)
 
 def searchPop(cluster, pop):
     pop = pop[cluster]
@@ -55,12 +43,10 @@ def searchPop(cluster, pop):
 
     for movie in pop:
         qset = Movie.objects.all().filter(Q(production_countries="FR") | Q(production_countries="US"), popularity=movie).values_list("id")
-        # print(qset)
         for m in qset:
             movies.append(m[0])
 
-    # print(movies)
     with open('recommended_movies.json', 'w') as f:
         json.dump(movies, f)
 
-    print(f"YHATED {len(movies)} movies")
+    print(f"Loaded {len(movies)} movies recommendation")
