@@ -9,7 +9,7 @@ from django.views.generic.edit import CreateView
 import json
 
 from .forms import MovieForm, MemberCreationForm
-from .models import Movie, Member, Genre
+from .models import MemberMovies, Movie, Member, Genre
 
 
 def index(request):
@@ -52,11 +52,11 @@ class MovieDetailView(DetailView):
     model = Movie
 
     def post(self, request, *args, **kwargs):
-        user_movies = request.user.movies
+        user_movies = request.user.movies.all()
         if self.get_object() in user_movies:
-            movie = user_movies.get(pk=self.get_object().pk)
+            movie = MemberMovies.objects.get(member = request.user, movie = self.get_object())
         else:
-            movie = user_movies.create(pk=self.get_object().pk)
+            movie = MemberMovies.objects.create(member = request.user, movie = self.get_object())
         action = request.POST.get('ajax-action')
         if action == 'ajax-like':
             movie.is_liked = True

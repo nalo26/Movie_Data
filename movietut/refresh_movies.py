@@ -12,7 +12,7 @@ def background_refresh_movie(waiting):
         time.sleep(waiting)
         jmovie = rq.get(f"{API_URI}?api_key={API_KEY}").json()
 
-        if latest_inserted != None and jmovie == latest_inserted: continue
+        if jmovie == latest_inserted: continue
 
         latest_inserted = jmovie.get('id')
         try:
