@@ -20,21 +20,17 @@ def index(request):
     movies_recently_released = list(movies_recently_released)
     movies_top_rated= Movie.objects.filter(popularity__gt=80.0).order_by("popularity")
 
-  
-    genres = list(request.user.genres.all())
-
-
-
     context = {
         "movies_to_be_released": movies_to_be_released,
         "movies_recently_released": movies_recently_released,
         "movies_top_rated": movies_top_rated,
-        "genres" : genres,
     }
-
-    # if request.user.is_authenticated:
-    r_movies = getRecommendedMovies()
-    context["movies_recommended"] = r_movies
+    
+    if request.user.is_authenticated:
+        genres = list(request.user.genres.all())
+        context["genres"] = genres
+        r_movies = getRecommendedMovies()
+        context["movies_recommended"] = r_movies
             
     return render(request, "movietut/index.html", context)
 
