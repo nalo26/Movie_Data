@@ -1,10 +1,63 @@
 {% extends 'movietut/base.html' %}
 {% block content %}
 
-    <section class="section">
-        <div class="container is-max-desktop">
-            <p>{{ user }}</p>
+<section class="section">
+    <div class="container is-max-desktop">
+        <center>
+            <!-- <img src="img/user.jpg" > -->
+            <img src="https://cdn.pixabay.com/photo/2018/04/18/18/56/user-3331256_960_720.png"  style="width:30%;  clip-path:circle(30%);" >
+        <div class="p-1 ">
+            <h2 class="has-text-weight-semibold is-size-2">
+                {{user.first_name}} 
+            </h2>
+            
         </div>
-    </section>
+        </center>
+            <div class="buttons">
+                {% for genre, est_genre_user in genres.items %}
+                    {% if est_genre_user %}
+                        <button id="{{ genre.pk }}" data-action="genre_delete" class="button is-success is-rounded ajax-action">{{ genre.name_fr }}</button>  
+                    {% else %}
+                        <button id="{{ genre.pk }}" data-action="genre_add" class="button is-link is-outlined is-rounded ajax-action">{{ genre.name_fr }}</button>
+                    {% endif %}
+                {% endfor%}
+            </div>
+    </div>
+</section>
+
+<script defer>
+    document.addEventListener("DOMContentLoaded", function () {
+        let ajaxActions = Array.prototype.slice.call(document.querySelectorAll(".ajax-action"), 0);
+        if (ajaxActions.length > 0) {
+            ajaxActions.forEach(function (el) {
+                el.addEventListener("click", event => {
+                    let formData = new FormData();
+                    formData.append('genre_pk', el.id);
+                    formData.append('genre_action', el.dataset.action);
+                    let csrfTokenValue = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                    const request = new Request('{% url "profile" %}', {
+                        method: 'POST',
+                        body: formData,
+                        headers: {'X-CSRFToken': csrfTokenValue},
+                    });
+                    fetch(request)
+                        .then(response => response.json())
+                        .then(result => {
+                            let action_result = result['action_result'];
+                            if (action_result == 'added') {
+                                el.dataset.action = 'genre_delete';
+                                el.classList.remove('is-link', 'is-outlined');
+                                el.classList.add('is-success');
+                            } else {
+                                el.dataset.action = 'genre_add';
+                                el.classList.remove('is-success');
+                                el.classList.add('is-link', 'is-outlined');
+                            }
+                        });
+                })
+            });
+        }
+    });
+</script>
 
 {% endblock %}
