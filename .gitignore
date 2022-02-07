@@ -8,5 +8,3 @@ __pycache__/
 *.sqlite3
 *.pgsql
 /movietut/migrations/
-*.sql
-recommended_movies.json

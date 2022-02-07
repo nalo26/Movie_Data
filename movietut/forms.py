@@ -44,7 +44,7 @@ class MovieForm(forms.Form):
 class MemberCreationForm(UserCreationForm):
     class Meta:
         model = Member
-        fields = ('username','password1','password2')
+        fields = ('username', 'last_name', 'first_name', 'password1', 'password2')
     
     def save(self, commit=True):
         user = super().save(commit=False)

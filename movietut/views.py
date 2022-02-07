@@ -6,10 +6,9 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView
-import json
 
 from .forms import MovieForm, MemberCreationForm
-from .models import MemberMovies, Movie, Member, Genre
+from .models import Movie, Member, Genre
 
 
 def index(request):
@@ -17,30 +16,28 @@ def index(request):
     end_date = start_date + timezone.timedelta(days=14)
     movies_to_be_released = Movie.objects.filter(release_date__range=[start_date + timedelta(days=1), end_date]).order_by("release_date")
     movies_recently_released= Movie.objects.filter(release_date__range=[start_date - timedelta(days=14), start_date]).order_by("-release_date")
-    movies_recently_released = list(movies_recently_released)
     movies_top_rated= Movie.objects.filter(popularity__gt=80.0).order_by("popularity")
+    
+    try :
+        genres = list(request.user.genres.all())
+    except:
+        genres = " "
 
     context = {
         "movies_to_be_released": movies_to_be_released,
         "movies_recently_released": movies_recently_released,
         "movies_top_rated": movies_top_rated,
+        "genres" : genres,
     }
-    
+
     if request.user.is_authenticated:
-        genres = list(request.user.genres.all())
-        context["genres"] = genres
-        r_movies = getRecommendedMovies()
-        context["movies_recommended"] = r_movies
+        context["movies_recommended"] = get_users_recommendations()
             
     return render(request, "movietut/index.html", context)
 
-def getRecommendedMovies():
-    try:
-        with open("recommended_movies.json", 'r') as f:
-            movies = json.load(f)
-        return [Movie.objects.get(id=i) for i in movies]
 
-    except Exception: return []
+def get_users_recommendations():
+    return None
 
 
 class MovieListView(ListView):
@@ -52,11 +49,11 @@ class MovieDetailView(DetailView):
     model = Movie
 
     def post(self, request, *args, **kwargs):
-        user_movies = request.user.movies.all()
+        user_movies = request.user.movies
         if self.get_object() in user_movies:
-            movie = MemberMovies.objects.get(member = request.user, movie = self.get_object())
+            movie = user_movies.get(pk=self.get_object().pk)
         else:
-            movie = MemberMovies.objects.create(member = request.user, movie = self.get_object())
+            movie = user_movies.create(pk=self.get_object().pk)
         action = request.POST.get('ajax-action')
         if action == 'ajax-like':
             movie.is_liked = True

@@ -42,8 +42,8 @@ class Movie(models.Model):
     popularity = models.FloatField()
     vote_count = models.IntegerField()
     vote_average = models.FloatField()
-    budget = models.BigIntegerField(default=0)
-    revenue = models.BigIntegerField(default=0)
+    budget = models.IntegerField(default=0)
+    revenue = models.IntegerField(default=0)
     runtime = models.IntegerField(default=0)
     status = models.CharField(max_length=200, default="")
     tagline = models.TextField(default="")
@@ -64,7 +64,7 @@ class Member(AbstractUser):
     movies = models.ManyToManyField(Movie, through='MemberMovies')
     def __str__(self):
         return self.username
- 
+
 
 class MemberMovies(models.Model):
     member = models.ForeignKey(Member, on_delete=models.CASCADE)

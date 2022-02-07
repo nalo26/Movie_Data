@@ -3,6 +3,7 @@
 
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,24 +18,22 @@
     <link rel="preload" href="{% static 'movietut/css/custom_select2.css' %}" as="style">
     <link rel="stylesheet" href="{% static 'movietut/css/custom_select2.css' %}" media="print">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     {{ form.media.css }} {{ form.media.js }}
 
     {% comment %}
-        <link rel="icon" type="image/x-icon" href="{% static 'rtpWebsite/img/favicon.ico' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'rtpWebsite/img/favicon.ico' %}">
     {% endcomment %}
     {% block css_js %}{% endblock %}
 </head>
-<body>
-<div id="wrapper">
-    {% include 'movietut/base/base_navbar.html' %}
-    {% include 'movietut/base/base_searchbar.html' %}
-    {% comment %}
-        {% include 'movietut/base_navbar.html' %}
-    {% endcomment %}
 
-    {% block content %}{% endblock %}
-</div>
-{% include 'movietut/base/base_footer.html' %}
+<body>
+    <div id="wrapper">
+        {% include 'movietut/base/base_navbar.html' %}
+        {% include 'movietut/base/base_searchbar.html' %}
+        {% block content %}{% endblock %}
+    </div>
+    {% include 'movietut/base/base_footer.html' %}
 </body>
+
 </html>
