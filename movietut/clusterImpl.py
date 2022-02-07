@@ -1,6 +1,7 @@
 import os
 from sklearn.cluster import KMeans
-from movietut.models import Movie
+from movietut.models import Cluster, Movie
+from django.db import transaction
 from django.db.models import Q
 import numpy as np
 import random
@@ -19,34 +20,42 @@ def create_cluster(nbCluster):
 
 
 def init():
-    if os.path.exists("recommended_movies.json"):
-        os.remove("recommended_movies.json")
         
     n_components = 50
     matrix, yhat, centers_init = create_cluster(n_components)
 
     pop = dict()
 
-    for k in range(n_components):
-        cluster_data = yhat == k
+    with transaction.atomic():
+        for k in range(n_components):
+            print(k)
+            cluster_data = yhat == k
 
-        pop[k] = list()
-        for index in range(len(cluster_data)):
-            if cluster_data[index]:
-                pop[k].append(matrix[index, 1])
+            pop[k] = list()
+            for index in range(len(cluster_data)):
+                if cluster_data[index]:
+                    pop[k].append(matrix[index, 1])
 
-    searchPop(12, pop)
+            if k == 0: continue
 
-def searchPop(cluster, pop):
-    pop = pop[cluster]
-    movies = list()
+            cluster = Cluster()
+            cluster.save()
+            movies_to_add = searchPop(pop[k])
+            for movie in movies_to_add:
+                cluster.movies.add(movie)
+            cluster.save()
+    
+    print("done")
 
-    for movie in pop:
+def searchPop(pop):
+    movies = set()
+
+    for movie in pop[:50]:
         qset = Movie.objects.all().filter(Q(production_countries="FR") | Q(production_countries="US"), popularity=movie).values_list("id")
         for m in qset:
-            movies.append(m[0])
+            movies.add(m[0])
 
-    with open('recommended_movies.json', 'w') as f:
-        json.dump(movies, f)
+    return movies
+    
 
-    print(f"Loaded {len(movies)} movies recommendation")
+

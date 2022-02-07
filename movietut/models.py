@@ -61,10 +61,15 @@ class Movie(models.Model):
 
 class Member(AbstractUser):
     genres = models.ManyToManyField(Genre)
-    movies = models.ManyToManyField(Movie, through='MemberMovies')
+    movies = models.ManyToManyField(Movie, through='MemberMovies', related_name="member_movies")
+    recommended = models.ManyToManyField(Movie, related_name="member_recommended_movies")
     def __str__(self):
         return self.username
  
+
+class Cluster(models.Model):
+    id = models.AutoField(primary_key=True)
+    movies = models.ManyToManyField(Movie)
 
 class MemberMovies(models.Model):
     member = models.ForeignKey(Member, on_delete=models.CASCADE)
