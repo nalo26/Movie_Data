@@ -27,9 +27,9 @@ def index(request):
     }
     
     if request.user.is_authenticated:
-        genres = list(request.user.genres.all())
-        context["genres"] = genres
-        r_movies = getRecommendedMovies()
+        # genres = list(request.user.genres.all())
+        # context["genres"] = genres
+        r_movies = request.user.recommended.all()
         context["movies_recommended"] = r_movies
             
     return render(request, "movietut/index.html", context)

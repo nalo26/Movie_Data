@@ -36,8 +36,6 @@ def init():
                 if cluster_data[index]:
                     pop[k].append(matrix[index, 1])
 
-            if k == 0: continue
-
             cluster = Cluster()
             cluster.save()
             movies_to_add = searchPop(pop[k])
