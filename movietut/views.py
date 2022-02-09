@@ -18,7 +18,7 @@ def index(request):
     movies_to_be_released = Movie.objects.filter(release_date__range=[start_date + timedelta(days=1), end_date]).order_by("release_date")
     movies_recently_released= Movie.objects.filter(release_date__range=[start_date - timedelta(days=14), start_date]).order_by("-release_date")
     movies_recently_released = list(movies_recently_released)
-    movies_top_rated= Movie.objects.filter(popularity__gt=80.0).order_by("popularity")
+    movies_top_rated= Movie.objects.filter(popularity__gt=80.0).order_by("-popularity")
 
     context = {
         "movies_to_be_released": movies_to_be_released,
